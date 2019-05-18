@@ -40,7 +40,7 @@ data.to_csv("relevant_rows.csv", index=False)
 
 #Set some for loops to go through the departments
 depts_list = data.Dept.unique()
-stoppls = 0
+incumbent_metric = 50000
 
 for dept in depts_list:    
     #Count the exp / control group in the department for if statement
@@ -57,7 +57,11 @@ for dept in depts_list:
         for c in range(count_c):
             e_team_array = np.array([e_teams['profit'].iloc[e],e_teams['size'].iloc[e],e_teams['wageindex'].iloc[e]])
             c_team_array = np.array([c_teams['profit'].iloc[c],c_teams['size'].iloc[c],c_teams['wageindex'].iloc[c]])
-            metric = distance.euclidean(e_team_array,c_team_array)
+            current_metric = distance.euclidean(e_team_array,c_team_array)
+            #Create some mechanism for there to be an incumbent
+            if current_metric < incumbent_metric:
+                incumbent_metric = current_metric
+                #incumbent_id = cteams['id']
             
 print(metric)
 #find the control group with the least metric
