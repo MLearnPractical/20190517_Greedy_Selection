@@ -1,4 +1,7 @@
 # 20190517_Greedy_Selection
+This problem was asked to me by a fellow student having encountered it in an interview.  I've created this repository to attempt to solve the same problem and hopefully help that student to be equipped to answer similar questions successfully in the future.
+-Falsedichotomancer
+
 Coding Interview Problem - Greedy Segmentation of Control/Test without Replacement
 [Background] In order to maintain the performance of the organization, a company has decided to implement a new management reform. This reform has been implemented in some teams. As a data scientist in PA team, in order to study the causal impact of this reform, we have gathered the data in the appendix (see Appendix 1):
 
