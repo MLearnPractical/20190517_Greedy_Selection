@@ -22,14 +22,18 @@ Wage index - Salary Index
 [Task] what you need to do is the matching part in "causal inference": Use Greedy Matching [1] approach for all experimental teams (the teams that have been implemented the reform) to find the most matching control groups (teams that have not been implemented the reforms) that have most similarities.
 
 Constraint 1: matching teams can only happen within the same department
+#Taking care of this with a for loop
 
 Constraint 2: a control team can not be matched twice, unless the number of the experimental teams is bigger than the number of controls teams in this department
+#If statement to see check if the number of experimental teams is bigger than the numberf of control teams
+#
 
 Constraint 3: profit, size, wage index three variables can be calculated the similarity
 
 Constraint 4: using the first year of data in the calculation for each team
 
 Constraint 5: using "Euclidean distance" to calculate similarity 
+#Use the difference between the experimental group and the control groups to find the control group with the lowest metric for any given exp group.
 
 In addition to the above constraints, if you are uncertain about some steps, you can choose your own approach, but you have to write the explanatory notes.
 
