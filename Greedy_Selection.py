@@ -1,7 +1,7 @@
 #Set up the libraries that I need
 import numpy as np
 import pandas as pd
-#from scipy.spatial import distance
+from scipy.spatial import distance
 #from scipy import stats
 
 #Import the CSV File
@@ -40,16 +40,26 @@ data.to_csv("relevant_rows.csv", index=False)
 
 #Set some for loops to go through the departments
 depts_list = data.Dept.unique()
-#print(depts_list)
+stoppls = 0
 
 for dept in depts_list:    
     #Count the exp / control group in the department for if statement
     teams = data[data['Dept'] == dept]
-    count_e = len(teams[teams['treatment'] == 1])
-    count_c = len(teams[teams['treatment'] == 0])
+    e_teams = teams[teams['treatment'] == 1]
+    c_teams = teams[teams['treatment'] == 0]
+    count_e = len(e_teams)
+    count_c = len(c_teams)
     print("dept: ",dept," total:", str(count_e + count_c)," Experimental: ", str(count_e),"  |  ", str(round(100*count_e/(count_e+count_c),3)),"%")
-    #print("dept: ",dept," total: ",str(count_e + count_c)," experimental: ",str(count_e))
+
 #Go through each experiment group in that dept
+    for e in range(count_e):
+        #calculate the metric for the c_teams:
+        for c in range(count_c):
+            e_team_array = np.array([e_teams['profit'].iloc[e],e_teams['size'].iloc[e],e_teams['wageindex'].iloc[e]])
+            c_team_array = np.array([c_teams['profit'].iloc[c],c_teams['size'].iloc[c],c_teams['wageindex'].iloc[c]])
+            metric = distance.euclidean(e_team_array,c_team_array)
+            
+print(metric)
 #find the control group with the least metric
 #Create some Pairs
 #Output the pairs
