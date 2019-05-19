@@ -42,7 +42,6 @@ data['paired_group'] = 'no pair identified'
 
 #Set some for loops to go through the departments
 depts_list = data.Dept.unique()
-incumbent_metric = 100000
 
 for dept in depts_list:    
     #Count the exp / control group in the department for if statement
@@ -56,6 +55,8 @@ for dept in depts_list:
 #Go through each experiment group in that dept
     for e in range(count_e):
         #calculate the metric for the c_teams:
+        incumbent_metric = 100000
+        current_id = e_teams['Obs_ID'].iloc[e]
         for c in range(count_c):
             e_team_array = np.array([e_teams['profit'].iloc[e],e_teams['size'].iloc[e],e_teams['wageindex'].iloc[e]])
             c_team_array = np.array([c_teams['profit'].iloc[c],c_teams['size'].iloc[c],c_teams['wageindex'].iloc[c]])
@@ -65,8 +66,11 @@ for dept in depts_list:
                 incumbent_metric = current_metric
                 incumbent_id = c_teams['Obs_ID'].iloc[c]
         
-        e_teams['paired_group'][e] = incumbent_id
-        print("dept: ",dept," team", str(e_teams['id'].iloc[e])," paired with ", str(incumbent_id))
+        data.loc[data['Obs_ID'] == incumbent_id, 'paired_group'] = current_id
+        data.loc[data['Obs_ID'] == current_id, 'paired_group'] = incumbent_id
+        
+        #data['paired_group'][data['Obs_ID'] == e_teams['Obs_ID'][e]] = incumbent_id
+#        print("dept: ",dept," team", str(e_teams['id'].iloc[e])," paired with ", str(incumbent_id))
 
 data.to_csv("paired_list.csv", index=False)
 #find the control group with the least metric
