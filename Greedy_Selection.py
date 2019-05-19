@@ -38,9 +38,11 @@ for item in teams_list:
 data = data[data['Obs_ID'].isin(relevant_rows)]
 data.to_csv("relevant_rows.csv", index=False)
 
+data['paired_group'] = 'no pair identified'
+
 #Set some for loops to go through the departments
 depts_list = data.Dept.unique()
-incumbent_metric = 50000
+incumbent_metric = 100000
 
 for dept in depts_list:    
     #Count the exp / control group in the department for if statement
@@ -49,7 +51,7 @@ for dept in depts_list:
     c_teams = teams[teams['treatment'] == 0]
     count_e = len(e_teams)
     count_c = len(c_teams)
-    print("dept: ",dept," total:", str(count_e + count_c)," Experimental: ", str(count_e),"  |  ", str(round(100*count_e/(count_e+count_c),3)),"%")
+    #print("dept: ",dept," total:", str(count_e + count_c)," Experimental: ", str(count_e),"  |  ", str(round(100*count_e/(count_e+count_c),3)),"%")
 
 #Go through each experiment group in that dept
     for e in range(count_e):
@@ -61,9 +63,12 @@ for dept in depts_list:
             #Create some mechanism for there to be an incumbent
             if current_metric < incumbent_metric:
                 incumbent_metric = current_metric
-                #incumbent_id = cteams['id']
-            
-print(metric)
+                incumbent_id = c_teams['Obs_ID'].iloc[c]
+        
+        e_teams['paired_group'][e] = incumbent_id
+        print("dept: ",dept," team", str(e_teams['id'].iloc[e])," paired with ", str(incumbent_id))
+
+data.to_csv("paired_list.csv", index=False)
 #find the control group with the least metric
 #Create some Pairs
 #Output the pairs
